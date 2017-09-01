@@ -82,15 +82,14 @@
     },
 	"Conditions": {
 			"SubnetZone": {
-			 "Fn::Or" : [
-				{"Fn::Equals": [{"Ref": "Zone"},"PE"]},
-				{"Fn::Equals": [{"Ref": "Zone"},"ED"]},
-				{"Fn::Equals": [{"Ref": "Zone"},"ET"]},
-				{"Fn::Equals": [{"Ref": "Zone"},"EA"]},
-				{"Fn::Equals": [{"Ref": "Zone"},"EP"]}
-	  ]
-	  }
-    },
+				"Fn::Equals": [
+					{
+						"Ref": "Zone"
+					},
+						"PE"
+      ]
+    }
+	},
     "Resources"                : {
         "Subnet" : {
             "Type" : "AWS::EC2::Subnet",

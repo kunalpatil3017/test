@@ -32,52 +32,52 @@
                 "ap"
             ]
         },
-		"PENACL":{
-			"Type": "CommaDelimitedList",
-			"Description":"Enter PE subnet cidr & NACLID ",
-			"Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24"
-		},
-		"MNACL":{
-			"Type": "CommaDelimitedList",
-			"Description":"Enter M subnet cidr & NACLID ",
-			"Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24"
-		},
-		"ENACL":{
-			"Type": "CommaDelimitedList",
-			"Description":"Enter External Dev/Prod subnet cidr & NACLID Enter External Test/Acceptance subnet cidr & NACLID",
-			"Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24,10.0.176.0/24"
-		},
-		"INACL":{
-			"Type": "CommaDelimitedList",
-			"Description":"Enter Internal Dev/Prod subnet cidr & NACLID Enter Internal Test/Acceptance subnet cidr & NACLID",
-			"Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24,10.0.176.0/24"
-		}
-    },		
-		
-	"Mappings" : {
-		
-			
-		    },
-	"Conditions": {
-	"Environment1" : {
+        "PENACL":{
+            "Type": "CommaDelimitedList",
+            "Description":"Enter PE subnet cidr & NACLID ",
+            "Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24"
+        },
+        "MNACL":{
+            "Type": "CommaDelimitedList",
+            "Description":"Enter M subnet cidr & NACLID ",
+            "Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24"
+        },
+        "ENACL":{
+            "Type": "CommaDelimitedList",
+            "Description":"Enter External Dev/Prod subnet cidr & NACLID Enter External Test/Acceptance subnet cidr & NACLID",
+            "Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24,10.0.176.0/24"
+        },
+        "INACL":{
+            "Type": "CommaDelimitedList",
+            "Description":"Enter Internal Dev/Prod subnet cidr & NACLID Enter Internal Test/Acceptance subnet cidr & NACLID",
+            "Default": "10.0.48.0/24, 10.0.112.0/24, 10.0.176.0/24,10.0.176.0/24"
+        }
+    },
+
+    "Mappings" : {
+
+
+            },
+    "Conditions": {
+    "Environment1" : {
         "Fn::Or" : [
-			{"Fn::Equals" : ["d", {"Ref" : "Environment"}]},
-			{"Fn::Equals" : ["t", {"Ref" : "Environment"}]},
-			{"Fn::Equals" : ["a", {"Ref" : "Environment"}]},
-			{"Fn::Equals" : ["p", {"Ref" : "Environment"}]},
-			{"Fn::Equals" : ["dt", {"Ref" : "Environment"}]},
-			{"Fn::Equals" : ["ap", {"Ref" : "Environment"}]}
-			]
-		},
-	"Environment2":{
-	    "Fn::Or" : [
-			{"Fn::Equals" : ["dt", {"Ref" : "Environment"}]},
-			{"Fn::Equals" : ["ap", {"Ref" : "Environment"}]}
+            {"Fn::Equals" : ["d", {"Ref" : "Environment"}]},
+            {"Fn::Equals" : ["t", {"Ref" : "Environment"}]},
+            {"Fn::Equals" : ["a", {"Ref" : "Environment"}]},
+            {"Fn::Equals" : ["p", {"Ref" : "Environment"}]},
+            {"Fn::Equals" : ["dt", {"Ref" : "Environment"}]},
+            {"Fn::Equals" : ["ap", {"Ref" : "Environment"}]}
+            ]
+        },
+    "Environment2":{
+        "Fn::Or" : [
+            {"Fn::Equals" : ["dt", {"Ref" : "Environment"}]},
+            {"Fn::Equals" : ["ap", {"Ref" : "Environment"}]}
       ]
     }
-	},
-	"Resources"                : {
-	"acll0": {
+    },
+    "Resources"                : {
+    "acll0": {
       "Type": "AWS::EC2::NetworkAclEntry",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
@@ -86,7 +86,7 @@
         "RuleAction": "allow",
         "RuleNumber": "100",
         "NetworkAclId": {
-				"Fn::Select" : [ "1", {"Ref": "PENACL"} ]
+                "Fn::Select" : [ "1", {"Ref": "PENACL"} ]
         }
       }
     },
@@ -218,7 +218,7 @@
         }
       }
     },
-	"acll9": {
+    "acll9": {
       "Type": "AWS::EC2::NetworkAclEntry",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
@@ -263,7 +263,7 @@
         }
       }
     },
-	"acl22": {
+    "acl22": {
       "Type": "AWS::EC2::NetworkAclEntry",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
@@ -276,11 +276,11 @@
         }
       }
     },
-	"acl23new": {
+    "acl23": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
-        "CidrBlock": "0.0.0.0/0",
+        "CidrBlock": {"Fn::Select" : [ "0", {"Ref": "PENACL"} ]},
         "Protocol": "-1",
         "RuleAction": "allow",
         "RuleNumber": "100",
@@ -289,22 +289,9 @@
         }
       }
     },
-    "acl23": {
+    "acl24": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
-      "Properties": {
-        "CidrBlock": {"Fn::Select" : [ "0", {"Ref": "PENACL"} ]},
-        "Protocol": "-1",
-        "RuleAction": "allow",
-        "RuleNumber": "101",
-        "NetworkAclId": {
-          "Fn::Select" : [ "1", {"Ref": "ENACL"} ]
-        }
-      }
-    },
-	"acl24": {
-      "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": "true",
@@ -318,7 +305,7 @@
     },
     "acl25": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
         "CidrBlock": {"Fn::Select" : [ "0", {"Ref": "MNACL"} ]},
         "Protocol": "6",
@@ -335,7 +322,7 @@
     },
     "acl26": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "MNACL"} ]},
         "Protocol": "6",
@@ -350,9 +337,9 @@
         }
       }
     },
-	"acl27": {
+    "acl27": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": "true",
@@ -364,9 +351,9 @@
         }
       }
     },
-	"acl28": {
+    "acl28": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "ENACL"} ]},
         "Protocol": "-1",
@@ -379,7 +366,7 @@
     },
     "acl29": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "MNACL"} ]},
         "Protocol": "6",
@@ -396,7 +383,7 @@
     },
     "acl30": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment1",
+      "Condition": "Environment1",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "MNACL"} ]},
         "Protocol": "6",
@@ -410,10 +397,10 @@
           "Fn::Select" : [ "1", {"Ref": "INACL"} ]
         }
       }
-    },	
-	"acl31": {
+    },
+    "acl31": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "PENACL"}]},
         "Protocol": "-1",
@@ -424,9 +411,9 @@
         }
       }
     },
-	"acl32": {
+    "acl32": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": "true",
@@ -440,7 +427,7 @@
     },
     "acl33": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "MNACL"}]},
         "Protocol": "6",
@@ -457,7 +444,7 @@
     },
     "acl34": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "MNACL"}]},
         "Protocol": "6",
@@ -472,9 +459,9 @@
         }
       }
     },
-	"acl35": {
+    "acl35": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": "true",
@@ -486,9 +473,9 @@
         }
       }
     },
-	"acl36": {
+    "acl36": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "2", {"Ref": "ENACL"} ]},
         "Protocol": "-1",
@@ -501,7 +488,7 @@
     },
     "acl37": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "MNACL"} ]},
         "Protocol": "6",
@@ -518,7 +505,7 @@
     },
     "acl38": {
       "Type": "AWS::EC2::NetworkAclEntry",
-	  "Condition": "Environment2",
+      "Condition": "Environment2",
       "Properties": {
         "CidrBlock":{"Fn::Select" : [ "0", {"Ref": "MNACL"} ] },
         "Protocol": "6",
@@ -533,9 +520,7 @@
         }
       }
     }
-	
-	}
-	
-        	
-	}	
 
+    }
+
+    }

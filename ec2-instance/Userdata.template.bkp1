@@ -63,11 +63,6 @@
                 "IP"
             ]
         },
-		"AppPrefix"          : {
-            "Type" : "String",
-            "Default" : "default",
-            "Description" : "Enter VPCID to connect Subnet to"
-        },
 	"KeyName" : {
 			"Description" : "Name of an existing EC2 KeyPair to enable SSH access to the host",
 			"Type" : "AWS::EC2::KeyPair::KeyName",
@@ -89,21 +84,7 @@
 	"SecurityGroup":{
 		 "Type" : "String",
          "Description" : "Enter SecurityGroup"
-		},
-	"PublicHostedZone" : {
-      "Type" : "String",
-	  "Default":"sogeti-aws.nl",
-      "Description" : "The DNS name of an existing Amazon Route 53 hosted zone",
-      "AllowedPattern" : "(?!-)[a-zA-Z0-9-.]{1,63}(?<!-)",
-      "ConstraintDescription" : "must be a valid DNS zone name."
-    },
-	"IntraHostedZone" : {
-      "Type" : "String",
-	  "Default":"sogeti-aws.yml",
-      "Description" : "The DNS name of an existing Amazon Route 53 hosted zone",
-      "AllowedPattern" : "(?!-)[a-zA-Z0-9-.]{1,63}(?<!-)",
-      "ConstraintDescription" : "must be a valid DNS zone name."
-    }
+		}
 	},
 	
 	"Resources":{
@@ -151,7 +132,6 @@
 									 "/opt/marathon-setup.sh":{
 														"content":{"Fn::Join" :["\n",[
 														"#!/bin/bash -xe",
-														"service ufw stop && sudo ufw disable",
 														"echo 'docker,mesos' > /etc/mesos-slave/containerizers",
 														"echo '10mins' > /etc/mesos-slave/executor_registration_timeout",
 														"service marathon restart",
@@ -278,51 +258,13 @@
 						}
 	
 					}
-	},
-	"HostRecord" : {
-      "Type" : "AWS::Route53::RecordSet",
-      "Properties" : {
-        "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
-        "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", [ {"Ref" : "CustomerPrefix"},".",{"Ref" : "Zone"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
-        "Type" : "A",
-        "TTL" : "900",
-        "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PublicIp" ] } ]
-      }
-    },
-	"ApplicationHostRecord" : {
-      "Type" : "AWS::Route53::RecordSet",
-      "Properties" : {
-        "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
-        "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", [ {"Ref":"AppPrefix"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
-        "Type" : "CNAME",
-        "TTL" : "900",
-        "ResourceRecords" : [ {"Ref":"HostRecord"} ]
-      }
-    },
-	"IntraHostRecord" : {
-      "Type" : "AWS::Route53::RecordSet",
-      "Properties" : {
-        "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "IntraHostedZone"}, "." ]]},
-        "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", [{"Ref":"AppPrefix"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "IntraHostedZone"},"."]]},
-        "Type" : "A",
-        "TTL" : "900",
-        "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PrivateIp" ] } ]
-      }
-	
 	}
 	},
 	
 	"Outputs"                  : {
 		"URL" : {
-                "Value" : { "Fn::Join" : [ "", ["http://",{"Ref":"HostRecord"},"/phpmyadmin"]]},
+                "Value" : { "Fn::Join" : [ "", ["http://", { "Fn::GetAtt" : ["EC2Host", "PublicIp"] },"/phpmyadmin"]]},
                 "Description" : "Newly created application URL"
-            },
-		"INTRAURL" : {
-                "Value" : { "Fn::Join" : [ "", [{"Ref":"IntraHostRecord"}]]},
-                "Description" : "Newly created application URL"
-            }	
+            }
         }
 }
