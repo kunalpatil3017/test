@@ -306,7 +306,7 @@
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", [{"nginx",".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"},"."]]},
+        "Name" : { "Fn::Join" : [ "", ["Nginx",".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"},"."]]},
         "Type" : "A",
         "TTL" : "900",
         "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PrivateIp" ] } ]
