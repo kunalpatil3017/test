@@ -170,7 +170,7 @@
 													"group"   : "root"
 												},
 									"/opt/microbot_v1.json":{
-													"source"  :"https://s3.amazonaws.com/sogetinl-mesos/microbot_v1.json",
+													"source"  :"https://s3.amazonaws.com/sogetinl-mesos/nginx.json",
 													"mode"    : "000700",
 													"owner"   : "root",
 													"group"   : "root"
