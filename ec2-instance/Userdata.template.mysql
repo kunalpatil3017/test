@@ -295,7 +295,7 @@
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", [ "Nginx",".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
+        "Name" : { "Fn::Join" : [ "", [ "Mysql",".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
         "Type" : "CNAME",
         "TTL" : "900",
         "ResourceRecords" : [ {"Ref":"HostRecord"} ]
