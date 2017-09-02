@@ -22,7 +22,7 @@ KeyPair=$6
 EC2InstanceType=$7
 AppPrefix=$8
 #Values
-StackName=$CustomerPrefix"-"$Environment"-"$Region$AZ"-"$Zone"-"$AppPrefix"mysql-cfs"
+StackName=$CustomerPrefix"-"$Environment"-"$Region$AZ"-"$Zone"-"$AppPrefix"-""mysql-cfs"
 #Find VPC ID using Tags
 Command="aws cloudformation describe-stack-resource  --stack-name $CustomerPrefix"-"$Environment"-"$Region""$AZ"-"$Zone"-subnet-cfs" --logical-resource-id Subnet --query StackResourceDetail.[PhysicalResourceId] --output text"
 SUBNETID=$($Command)
