@@ -169,7 +169,7 @@
 													"owner"   : "root",
 													"group"   : "root"
 												},
-									"/opt/microbot_v1.json":{
+									"/opt/nginx.json":{
 													"source"  :"https://s3.amazonaws.com/sogetinl-mesos/nginx.json",
 													"mode"    : "000700",
 													"owner"   : "root",
