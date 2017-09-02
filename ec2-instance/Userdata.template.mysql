@@ -1,6 +1,6 @@
 {
 "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "Cloud Formation stack to create Single VPC",
+    "Description"              : "Cloud Formation stack to create Single Stand Alone Mesos Server",
     "Parameters"               : {
         "CustomerPrefix" : {
             "Type" : "String",
@@ -316,10 +316,6 @@
 	},
 	
 	"Outputs"                  : {
-		"URL" : {
-                "Value" : { "Fn::Join" : [ "", ["http://",{"Ref":"HostRecord"},"/phpmyadmin"]]},
-                "Description" : "Newly created application URL"
-            },
 		"INTRAURL" : {
                 "Value" : { "Fn::Join" : [ "", [{"Ref":"IntraHostRecord"}]]},
                 "Description" : "Newly created application URL"

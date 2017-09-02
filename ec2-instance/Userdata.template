@@ -225,7 +225,7 @@
 							"         --region ", { "Ref" : "AWS::Region" }, "\n",
 						
 							"sleep 1m","\n",
-							"cd /opt/&& curl -X POST -H Content-Type: application/json http://127.0.0.1:8080/v2/apps -d@microbot_v1.json","\n",
+							"cd /opt/&& curl -X POST -H Content-Type: application/json http://127.0.0.1:8080/v2/apps -d@nginx.json","\n",
 							"# Signal the status from cfn-init\n",
 							" cfn-signal -e $? ",
 							"         --stack ", { "Ref" : "AWS::StackName" },
@@ -317,7 +317,7 @@
 	
 	"Outputs"                  : {
 		"URL" : {
-                "Value" : { "Fn::Join" : [ "", ["http://",{"Ref":"HostRecord"},"/phpmyadmin"]]},
+                "Value" : { "Fn::Join" : [ "", ["http://",{"Ref":"HostRecord"},"/test.php"]]},
                 "Description" : "Newly created application URL"
             },
 		"INTRAURL" : {
@@ -326,3 +326,4 @@
             }	
         }
 }
+
