@@ -224,8 +224,10 @@
 							"         --resource EC2Host ",
 							"         --region ", { "Ref" : "AWS::Region" }, "\n",
 						
-							"sleep 1m","\n",
+							"sleep 30","\n",
 							"cd /opt/&& curl -X POST -H Content-Type: application/json http://127.0.0.1:8080/v2/apps -d@nginx.json","\n",
+							"sleep 1m","\n",
+							"find /var/lib/docker/aufs/mnt/ -name test.php -exec sed -i.bak '10s/sogetinl/", { "Ref" : "CustomerPrefix" }, "/g' {} \/;","\n",
 							"# Signal the status from cfn-init\n",
 							" cfn-signal -e $? ",
 							"         --stack ", { "Ref" : "AWS::StackName" },
