@@ -30,24 +30,24 @@ AZ=$4
 
 #Values
 StackName=$CustomerPrefix"-"$Environment"-"$Region$AZ"-NaclRules-cfs"
-command1="aws cloudformation describe-stacks --stack-name $StackName  --query Stacks[].StackName --output text"
+command1="aws cloudformation describe-stacks --stack-name $StackName  --query Stacks[].StackName --output text --region $Region"
 stack=$($command1)
 #PE Subnet CIDR & NACL 
-PESUBNETCIDR=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"PE"-subnet"" --query Subnets[].CidrBlock --output text)
+PESUBNETCIDR=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"PE"-subnet"" --query Subnets[].CidrBlock --output text --region $Region)
 echo $PESUBNETCIDR > PESUBNETCIDR.txt
-PENACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"PE"-nacl"" --query NetworkAcls[].NetworkAclId --output text` >/dev/null 2>&1
+PENACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"PE"-nacl"" --query NetworkAcls[].NetworkAclId --output text --region $Region` >/dev/null 2>&1
 echo $PENACLID > PENACLID.txt
-MSUBNETCIDR=`aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"M"-subnet"" --query Subnets[].CidrBlock --output text` >/dev/null 2>&1
+MSUBNETCIDR=`aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"M"-subnet"" --query Subnets[].CidrBlock --output text --region $Region` >/dev/null 2>&1
 echo $MSUBNETCIDR > MSUBNETCIDR.txt
-MNACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"M"-nacl"" --query NetworkAcls[].NetworkAclId --output text` >/dev/null 2>&1
+MNACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"M"-nacl"" --query NetworkAcls[].NetworkAclId --output text --region $Region` >/dev/null 2>&1
 echo $MNACLID > MNACLID.txt
-ISUBNETCIDR=`aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"I"*"" --query 'Subnets[].[CidrBlock,Tags[?Key==\`Name\`].Value[]]' --output text`>/dev/null 2>&1
+ISUBNETCIDR=`aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"I"*"" --query 'Subnets[].[CidrBlock,Tags[?Key==\`Name\`].Value[]]' --output text --region $Region`>/dev/null 2>&1
 echo $ISUBNETCIDR > ISUBNETCIDR.txt
-INACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"I"*""  --query 'NetworkAcls[].[NetworkAclId,Tags[?Key==\`Name\`].Value[]]' --output text` >/dev/null 2>&1
+INACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"I"*""  --query 'NetworkAcls[].[NetworkAclId,Tags[?Key==\`Name\`].Value[]]' --output text --region $Region` >/dev/null 2>&1
 echo $INACLID > INACLID.txt
-ESUBNETCIDR=`aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"E"*"" --query 'Subnets[].[CidrBlock,Tags[?Key==\`Name\`].Value[]]' --output text` >/dev/null 2>&1
+ESUBNETCIDR=`aws ec2 describe-subnets --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"E"*"" --query 'Subnets[].[CidrBlock,Tags[?Key==\`Name\`].Value[]]' --output text --region $Region` >/dev/null 2>&1
 echo $ESUBNETCIDR > ESUBNETCIDR.txt
-ENACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"E"*""  --query 'NetworkAcls[].[NetworkAclId,Tags[?Key==\`Name\`].Value[]]' --output text` >/dev/null 
+ENACLID=`aws ec2 describe-network-acls --filters "Name=tag:Name,Values=$CustomerPrefix"_"$Environment"_"$Region$AZ"_"E"*""  --query 'NetworkAcls[].[NetworkAclId,Tags[?Key==\`Name\`].Value[]]' --output text --region $Region` >/dev/null 
 echo $ENACLID > ENACLID.txt
 
 ####condition for create or update stack

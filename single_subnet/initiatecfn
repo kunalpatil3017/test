@@ -30,7 +30,7 @@ VPCID=$($Command)
 echo "VPC ID : $VPCID"
 command1="aws cloudformation describe-stacks --stack-name $StackName  --query Stacks[].StackName --output text"
 ##Internet Gateway From VPC Sript
-command2="aws ec2 describe-internet-gateways --filters "Name=tag:Name,Values="$CustomerPrefix"_"$Environment"-igw" --query InternetGateways[].InternetGatewayId --output text"
+command2="aws ec2 describe-internet-gateways --filters "Name=tag:Name,Values="$CustomerPrefix"_"$Environment"-igw" --query InternetGateways[].InternetGatewayId --output text --region $Region"
 stack=$($command1)
 InternetGateway=$($command2)
 

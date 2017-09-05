@@ -25,11 +25,11 @@ PublicHostedZone=$9
 #Values
 StackName=$CustomerPrefix"-"$Environment"-"$Region$AZ"-"$Zone"-"$AppPrefix"-""mysql-cfs"
 #Find VPC ID using Tags
-Command="aws cloudformation describe-stack-resource  --stack-name $CustomerPrefix"-"$Environment"-"$Region""$AZ"-"$Zone"-subnet-cfs" --logical-resource-id Subnet --query StackResourceDetail.[PhysicalResourceId] --output text"
+Command="aws cloudformation describe-stack-resource  --stack-name $CustomerPrefix"-"$Environment"-"$Region""$AZ"-"$Zone"-subnet-cfs" --logical-resource-id Subnet --query StackResourceDetail.[PhysicalResourceId] --output text --region $Region"
 SUBNETID=$($Command)
-command1="aws cloudformation describe-stacks --stack-name $StackName  --query Stacks[].StackName --output text"
+command1="aws cloudformation describe-stacks --stack-name $StackName  --query Stacks[].StackName --output text --region $Region"
 ##Internet Gateway From VPC Sript
-command2="aws cloudformation describe-stack-resource --stack-name $CustomerPrefix"-"$Environment"-"$Region""$AZ"-"$Zone"-"$AppPrefix"-sg-cfs"  --logical-resource-id FrontendSecurityGroup --query StackResourceDetail.[PhysicalResourceId] --output text"
+command2="aws cloudformation describe-stack-resource --stack-name $CustomerPrefix"-"$Environment"-"$Region""$AZ"-"$Zone"-"$AppPrefix"-sg-cfs"  --logical-resource-id FrontendSecurityGroup --query StackResourceDetail.[PhysicalResourceId] --output text --region $Region"
 stack=$($command1)
 SecurityGroup=$($command2)
 
