@@ -21,7 +21,7 @@ CIDR=$4
 
 #Values
 StackName=$CustomerPrefix"-"$Environment"-vpc-cfs"
-command1="aws cloudformation describe-stacks --stack-name $StackName  --query Stacks[].StackName --output text"
+command1="aws cloudformation describe-stacks --stack-name $StackName  --query Stacks[].StackName --output text --region $Region"
 stack=$($command1)
 ####condition for create or update stack 
 if [ "$stack" = "$StackName" ]; then
