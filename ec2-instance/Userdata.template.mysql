@@ -105,6 +105,15 @@
       "ConstraintDescription" : "must be a valid DNS zone name."
     }
 	},
+	"Mappings" : {
+  "RegionMap" : {
+    "us-east-1"      : { "64" : "ami-cd0f5cb6"},
+    "us-west-1"      : { "64" : "ami-09d2fb69"},
+    "eu-west-1"      : { "64" : "ami-785db401"},
+    "eu-west-2" 	 : { "64" : "ami-996372fd"},
+    "eu-central-1" : { "64" : "ami-1e339e71"}
+  }
+},
 	
 	"Resources":{
 				"EC2Host" : {
@@ -201,7 +210,7 @@
 			"Properties" : {
 					"InstanceType" : { "Ref" : "EC2InstanceType" },
 					"KeyName"  : { "Ref" : "KeyName" },
-					"ImageId"  : "ami-cd0f5cb6",
+					"ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "64"]},
 					"UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
 							"#!/bin/bash -xe\n",
 							"apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF\n",
