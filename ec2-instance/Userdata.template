@@ -295,7 +295,7 @@
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", [ {"Ref" : "CustomerPrefix"},".",{"Ref" : "Zone"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
+        "Name" : { "Fn::Join" : [ "", [ {"Ref" : "CustomerPrefix"},".",{"Ref" : "AWS::Region"},".",{"Ref" : "Zone"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
         "Type" : "A",
         "TTL" : "900",
         "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PublicIp" ] } ]
@@ -306,7 +306,7 @@
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", [ "Nginx",".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
+        "Name" : { "Fn::Join" : [ "", [ "Nginx",".",{"Ref" : "AWS::Region"},".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
         "Type" : "CNAME",
         "TTL" : "900",
         "ResourceRecords" : [ {"Ref":"HostRecord"} ]
@@ -317,7 +317,7 @@
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", ["Nginx",".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"},"."]]},
+        "Name" : { "Fn::Join" : [ "", ["Nginx",".",{"Ref" : "AWS::Region"},".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"},"."]]},
         "Type" : "A",
         "TTL" : "900",
         "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PrivateIp" ] } ]
@@ -337,4 +337,3 @@
             }	
         }
 }
-
