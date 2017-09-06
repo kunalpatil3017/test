@@ -307,7 +307,7 @@
         "Name" : { "Fn::Join" : [ "", [ "mysql",".",{"Ref" : "AWS::Region"},".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
         "Type" : "A",
         "TTL" : "900",
-        "ResourceRecords" : [ {"Ref":"HostRecord"} ]
+        "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PublicIp" ] } ]
       }
     },
 	"IntraHostRecord" : {
