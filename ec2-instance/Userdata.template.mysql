@@ -305,7 +305,7 @@
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
         "Name" : { "Fn::Join" : [ "", [ "mysql",".",{"Ref" : "AWS::Region"},".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
-        "Type" : "CNAME",
+        "Type" : "A",
         "TTL" : "900",
         "ResourceRecords" : [ {"Ref":"HostRecord"} ]
       }
