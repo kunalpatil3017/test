@@ -1,6 +1,6 @@
 {
 "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "Cloud Formation stack to create Single VPC",
+    "Description"              : "Cloud Formation create mesos stand alone server in PE",
     "Parameters"               : {
         "CustomerPrefix" : {
             "Type" : "String",
@@ -312,9 +312,9 @@
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
         "Name" : { "Fn::Join" : [ "", [ "Nginx",".",{"Ref" : "AWS::Region"},".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"} ,"."]]},
-        "Type" : "CNAME",
+        "Type" : "A",
         "TTL" : "900",
-        "ResourceRecords" : [ {"Ref":"HostRecord"} ]
+        "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PublicIp" ] } ]
       }
     },
 	"IntraHostRecord" : {
@@ -322,7 +322,7 @@
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "PublicHostedZone"}, "." ]]},
         "Comment" : "DNS name for my instance.",
-        "Name" : { "Fn::Join" : [ "", ["Nginx",".",{"Ref" : "AWS::Region"},".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"},"."]]},
+        "Name" : { "Fn::Join" : [ "", ["Nginx",".",{"Ref" : "Zone"},".",{"Ref" : "CustomerPrefix"},".",{"Ref" : "PublicHostedZone"},"."]]},
         "Type" : "A",
         "TTL" : "900",
         "ResourceRecords" : [ { "Fn::GetAtt" : [ "EC2Host", "PrivateIp" ] } ]
