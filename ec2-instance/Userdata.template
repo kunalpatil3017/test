@@ -334,7 +334,7 @@
 	
 	"Outputs"                  : {
 		"URL" : {
-                "Value" : { "Fn::Join" : [ "", ["http://",{"Ref":"HostRecord"},"/test.php"]]},
+                "Value" : { "Fn::Join" : [ "", ["http://",{"Ref":"HostRecord"}]]},
                 "Description" : "Newly created application URL"
             },
 		"INTRAURL" : {
